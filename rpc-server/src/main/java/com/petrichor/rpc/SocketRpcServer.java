@@ -1,14 +1,12 @@
 package com.petrichor.rpc;
 
-import com.sun.security.ntlm.Server;
-import lombok.extern.slf4j.Slf4j
-import org.apache.log4j.net.SocketServer;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.PrivateKey;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -41,11 +39,11 @@ public class SocketRpcServer {
         try{
             ServerSocket serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(host,port));
-            CustomShutdownHook.getCustomShutdownHook.clearAll();
+            //CustomShutdownHook.getCustomShutdownHook.clearAll();
             Socket socket;
             while((socket=serverSocket.accept())!=null){
                 log.info("client connected [{}]", socket.getInetAddress());
-                threadPool.execute(new SocketRpcRequestHandlerRunnable(serverSocket));
+                threadPool.execute(new SocketRpcRequestHandlerRunnable(socket));
             }
 
             threadPool.shutdown();

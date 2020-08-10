@@ -9,20 +9,18 @@ import java.util.UUID;
 
 @Slf4j
 public class ProxyHandler implements InvocationHandler {
-    private Object targetObject ; //传入的代理对象
+//    private Object targetObject ; //传入的代理对象
     private ClientType clientType;
     public ProxyHandler(ClientType clientType){
         this.clientType=clientType;
     }
 
     //返回一个可以代理原对象的代理对象
-    public Object getProxy(Object targetObject){
-        this.targetObject=targetObject;
-        ClassLoader classLoader=targetObject.getClass().getClassLoader();
-        Class<?>[] interfaces = targetObject.getClass().getInterfaces();   //被代理对象实现的接口
+    public <T> T getProxy(Class<T> clazz){
+        ClassLoader classLoader=clazz.getClassLoader();
         //this 当前对象，该对象实现了InvocationHandler接口所以有invoke方法，通过invoke方法可以调用被代理对象的方法
         //调用Proxy的newProxyInstance方法可以生成代理对象
-        return Proxy.newProxyInstance(classLoader,interfaces,this);
+        return (T)Proxy.newProxyInstance(classLoader,new Class<?>[]{clazz},this);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SocketRpcRequestHandlerRunnable implements Runnable{
     private Socket socket;
     private RpcResquestHandler rpcRequestHandler;   //用单例避免频繁创建与销毁
 
-    public SocketRpcRequestHandlerRunnable(Socket socket, RpcResquestHandler resquestHandler) {
+    public SocketRpcRequestHandlerRunnable(Socket socket) {
         this.socket = socket;
         this.rpcRequestHandler = SingletonFactory.getInstance(RpcResquestHandler.class);
     }

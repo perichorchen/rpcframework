@@ -5,7 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.petrichor.rpc</groupId>
-  <artifactId>rpc-client</artifactId>
+    <artifactId>rpc-client</artifactId>
+    <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
   <name>rpc-client</name>
@@ -19,6 +20,11 @@
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.petrichor.rpc</groupId>
+      <artifactId>service-api</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
