@@ -19,6 +19,7 @@ public class SingletonFactory {
     private static Map<String, Object> objectMap = new HashMap<>();
     private SingletonFactory(){};
 
+    //不区分具体的类，要获取单例给工厂一个class对象
     public static <T> T getInstance(Class<T> tClass){
         String key = tClass.toString();
         Object instance = objectMap.get(key);
