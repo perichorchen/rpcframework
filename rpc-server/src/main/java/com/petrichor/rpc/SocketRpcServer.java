@@ -18,22 +18,17 @@ public class SocketRpcServer {
     private final ExecutorService threadPool;
     private final String host;
     private final int port;
-    private final ServiceRegistry serviceRegistry;
+    private final ServiceRegistry  serviceRegistry;
     private final ServiceProvider  serviceProvider;
 
     public SocketRpcServer(ExecutorService threadPool, String host, int port, ServiceRegistry serviceRegistry, ServiceProvider serviceProvider) {
-        this.threadPool = threadPool;
+        this.threadPool = ThreadPoolFactoryUtils.createCustomThreadPoolIfAbsent(new CustomThreadPoolConfig(),"rpc-threadpool",false);
         this.host = host;
         this.port = port;
         this.serviceRegistry = serviceRegistry;
         this.serviceProvider = serviceProvider;
     }
 
-    public <T> void publishService(T service, Class<T> serviceClass) {    //发布服务，有的用户调的老接口，服务版本控制怎么做
-        serviceProvider.addServiceProvider(service, serviceClass);
-        serviceRegistry.registerService(serviceClass.getCanonicalName(), new InetSocketAddress(host, port)); //注册服务
-        start();
-    }
 
     private void start(){
         try{
@@ -51,5 +46,13 @@ public class SocketRpcServer {
         }catch (IOException e){
             log.error("IOException" , e);
         }
+    }
+
+
+    //服务发布方法暂存
+    public <T> void publishService(T service, Class<T> serviceClass) {    //发布服务，有的用户调的老接口，服务版本控制怎么做
+        serviceProvider.addServiceProvider(service, serviceClass);
+        serviceRegistry.registerService(serviceClass.getCanonicalName(), new InetSocketAddress(host, port)); //注册服务
+        start();
     }
 }
